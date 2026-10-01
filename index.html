@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PocketSmart AI – Smart Budget and Recommendation Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo" aria-hidden="true">👛</div>
+    <div><h1>PocketSmart AI</h1><small>Smart Budget and Recommendation Assistant</small></div>
+  </div>
+  <button class="user" id="userBtn" aria-label="Open settings">
+    <span class="avatar" aria-hidden="true">👤</span>
+    <span>Hello, <span class="uname">User</span></span> ▾
+  </button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="nav" aria-label="Main">
+      <button class="active" data-target="top">🏠 Dashboard</button>
+      <button data-target="addExpense">➕ Add Expense</button>
+      <button data-target="overview">📊 Budget &amp; Analysis</button>
+      <button data-target="aiTips">💡 AI Tips</button>
+      <button id="settingsNav">⚙️ Settings</button>
+    </nav>
+    <div class="side-quote">
+      <span class="plant" aria-hidden="true">🪴</span>
+      Better Spending Today, A Brighter Tomorrow
+      <hr>
+    </div>
+  </aside>
+
+  <main id="top">
+    <section class="welcome">
+      <div>
+        <h2>Welcome back, <span class="uname">User</span>! 👋</h2>
+        <p>Track your expenses, manage your budget and get smart recommendations with PocketSmart AI.</p>
+      </div>
+      <div class="art" aria-hidden="true"><span>👛</span><em>Small steps lead to big savings!</em></div>
+    </section>
+
+    <section class="stats" aria-label="Summary">
+      <div class="stat income">
+        <div class="ico" aria-hidden="true">💼</div>
+        <div><div class="label">Monthly Income</div>
+          <div class="value"><span id="incomeVal">₹ 0</span><button class="edit" id="editIncome" aria-label="Edit income">✎</button></div></div>
+      </div>
+      <div class="stat expense">
+        <div class="ico" aria-hidden="true">🧾</div>
+        <div><div class="label">Total Expenses</div>
+          <div class="value"><span id="expenseVal">₹ 0</span><button class="edit" data-focus aria-label="Add an expense">✎</button></div></div>
+      </div>
+      <div class="stat balance">
+        <div class="ico" aria-hidden="true">💲</div>
+        <div><div class="label">Remaining Balance</div>
+          <div class="value"><span id="balanceVal">₹ 0</span><button class="edit" data-focus aria-label="Add an expense">✎</button></div></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- Add expense -->
+      <div class="card" id="addExpense">
+        <div class="form-head">
+          <div class="ico" aria-hidden="true">📝</div>
+          <div><h3>Add Expense</h3><p class="sub">Enter your expense details below</p></div>
+        </div>
+        <form id="expenseForm" novalidate>
+          <div class="row">
+            <div class="field"><label for="income">Income Amount (₹)</label>
+              <input class="input" id="income" type="number" min="0" step="any" placeholder="e.g. 25000"></div>
+            <div class="field"><label for="amount">Expense Amount (₹) <span class="req">*</span></label>
+              <input class="input" id="amount" type="number" min="0" step="any" placeholder="e.g. 500"></div>
+          </div>
+          <div class="field"><label for="category">Category <span class="req">*</span></label>
+            <select class="input" id="category"></select></div>
+          <div class="field"><label for="date">Date <span class="req">*</span></label>
+            <input class="input" id="date" type="date"></div>
+          <button class="btn" type="submit">💾 Save Expense</button>
+          <p class="msg" id="formMsg" role="status"></p>
+        </form>
+      </div>
+
+      <div class="col">
+        <!-- Overview -->
+        <div class="card" id="overview">
+          <h3>Spending Overview</h3>
+          <p class="sub">Your expenses by category</p>
+          <div class="overview">
+            <div class="donut">
+              <svg width="190" height="190" viewBox="0 0 190 190" id="donutSvg" role="img" aria-label="Spending by category"></svg>
+              <div class="center"><strong id="donutTotal">₹ 0</strong><span>Total Spent</span></div>
+            </div>
+            <ul class="legend" id="legend"></ul>
+          </div>
+        </div>
+        <!-- Recent -->
+        <div class="card">
+          <div class="recent-head">
+            <h3>🕒 Recent Expenses</h3>
+            <button class="link" id="viewAll">View All →</button>
+          </div>
+          <table>
+            <thead><tr><th>Date</th><th>Category</th><th>Amount</th></tr></thead>
+            <tbody id="recentBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI -->
+    <section class="card ai" id="aiTips" style="margin-top:22px">
+      <div>
+        <div class="ai-title"><span style="font-size:24px;color:#4c5bd4" aria-hidden="true">✦</span>
+          <h3>AI Recommendations</h3><span class="badge">Powered by Gemini</span></div>
+        <p class="sub">Here are some personalized tips based on your spending pattern:</p>
+        <ul class="tips" id="tips"></ul>
+      </div>
+      <div class="ask">
+        <div class="ask-head"><span>Ask Gemini</span><span class="bot" aria-hidden="true">🤖</span></div>
+        <div class="chips">
+          <button class="chip" data-q="plan">• “Give me a monthly budget plan”</button>
+          <button class="chip" data-q="most">• “Where am I spending the most?”</button>
+          <button class="chip" data-q="save">• “How can I save more money?”</button>
+        </div>
+        <div class="answer" id="answer" role="status"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<dialog id="settings">
+  <h3>Settings</h3>
+  <div class="field"><label for="nameInput">Your name</label>
+    <input class="input" id="nameInput" maxlength="30" placeholder="User"></div>
+  <div class="dlg-actions">
+    <button class="btn" id="saveSettings" type="button" style="margin-top:0">Save</button>
+    <button class="btn ghost" id="resetData" type="button" style="margin-top:0">Reset data</button>
+  </div>
+</dialog>
+
+<script src="script.js"></script>
+</body>
+</html>
+
